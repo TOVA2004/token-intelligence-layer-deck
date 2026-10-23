@@ -2,7 +2,15 @@
 
 13 slides, 16:9 (1920 × 1080).
 
-**⬇ [Download the PDF](dist/token-intelligence-layer-deck.pdf?raw=true)** · **⬇ [Download the HTML presenter](dist/token-intelligence-layer-deck.html?raw=true)** · [View the PDF in the browser](dist/token-intelligence-layer-deck.pdf)
+## Download
+
+| File | Direct download |
+| --- | --- |
+| Presentation PDF (1.4 MB) | **[⬇ token-intelligence-layer-deck.pdf](https://github.com/TOVA2004/token-intelligence-layer-deck/raw/main/dist/token-intelligence-layer-deck.pdf)** |
+| HTML presenter, works offline (1.3 MB) | **[⬇ token-intelligence-layer-deck.html](https://github.com/TOVA2004/token-intelligence-layer-deck/raw/main/dist/token-intelligence-layer-deck.html)** |
+| Everything: PDF, HTML, slide images, source | **[⬇ Download ZIP](https://github.com/TOVA2004/token-intelligence-layer-deck/archive/refs/heads/main.zip)** |
+
+Prefer to look first? [View the PDF in the browser](dist/token-intelligence-layer-deck.pdf).
 
 <details open>
 <summary><b>Slide preview</b></summary>
