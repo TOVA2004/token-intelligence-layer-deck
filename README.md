@@ -1,6 +1,25 @@
 # Token Intelligence Layer — TIC Hackathon pitch deck
 
-13 slides, 16:9 (1920 × 1080).
+13 slides, 16:9 (1920 × 1080). **[Open the PDF](dist/token-intelligence-layer-deck.pdf)** to view or download the full deck.
+
+<details open>
+<summary><b>Slide preview</b></summary>
+
+![01 Cover](dist/png/slide-01.png)
+![02 Problem](dist/png/slide-02.png)
+![03 Why now](dist/png/slide-03.png)
+![04 Solution](dist/png/slide-04.png)
+![05 How it works](dist/png/slide-05.png)
+![06 Product concept](dist/png/slide-06.png)
+![07 Users](dist/png/slide-07.png)
+![08 Value](dist/png/slide-08.png)
+![09 Competition](dist/png/slide-09.png)
+![10 Business model](dist/png/slide-10.png)
+![11 MVP scope](dist/png/slide-11.png)
+![12 Demo](dist/png/slide-12.png)
+![13 Vision](dist/png/slide-13.png)
+
+</details>
 
 ## Files
 
