@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Intelligence Layer — TIC Hackathon pitch</title>
+<!-- Inter is used when online; the bundled Deck Sans (Noto Sans) is the offline fallback. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 32 32">
+    <path d="M16 3.5 28 10 16 16.5 4 10Z" fill="#58F0B5" fill-opacity=".16" stroke="#58F0B5" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M4 15.5 16 22 28 15.5" fill="none" stroke="#668CFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M4 21 16 27.5 28 21" fill="none" stroke="#9BA6B5" stroke-opacity=".7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="16" cy="10" r="2.2" fill="#58F0B5"/>
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.5a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1 .9-1 1.6v.4M12 16.8v.2"/></symbol>
+  <symbol id="i-nodes" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="12" cy="12.5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="18" r="2"/><path d="M6.8 7.4l1.5 1.9M17.3 6.3l-1.3 1.8M6.7 17.6l1.4-1.4M17.2 17l-1.6-1.1"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></symbol>
+  <symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 5.1A9.8 9.8 0 0 1 12 5c5 0 8.5 4.5 9.5 7a13 13 0 0 1-2.4 3.6M6.6 6.6C4.6 8 3.2 10 2.5 12c1 2.5 4.5 7 9.5 7 1.9 0 3.6-.6 5-1.5"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3.5l9 4.8-9 4.8-9-4.8z"/><path d="M3 12.5l9 4.8 9-4.8"/><path d="M3 16.7l9 4.8 9-4.8"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="2.5"/><path d="M4 5.5v13c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-13"/><path d="M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/></symbol>
+  <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2.5-6 5 12 2.5-6h4"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5M13.5 4.5l-3 15"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16"/><path d="M7 16v-5M12 16V6M17 16v-8"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="6.5" width="18" height="13" rx="2.5"/><path d="M3 10.5h18"/><path d="M15.5 15h2"/><path d="M6 6.5l9.5-3 1.5 3"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12C4 8.5 7.5 5 12 5s8 3.5 9.5 7c-1.5 3.5-5 7-9.5 7s-8-3.5-9.5-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6"/><path d="M3.5 4v4.5H8"/><path d="M12 8v4.5l3 1.5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5"/><path d="M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v4"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l5.5-3.5z"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5.5 9.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/><path d="M7.5 15h9"/></symbol>
+  <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></symbol>
+</svg>
+
+<div class="viewport">
+<main class="deck">
+
+<!-- ============================================================
+     01 · COVER
+     ============================================================ -->
+<section class="slide s-cover" data-section="">
+  <div class="fx-grid"></div>
+  <div class="fx-glow" style="--x:76%; --y:52%"></div>
+  <div class="content">
+    <div class="cover-text">
+      <div class="eyebrow">TIC Hackathon · Project pitch</div>
+      <h1 class="display">AI agents need to know <span class="hl">what’s real</span> before they act.</h1>
+      <p class="lead">Token Intelligence Layer is a live evidence service for AI agents — starting with newly launched crypto tokens.</p>
+      <div class="cover-meta">
+        <span class="tag mint"><span class="d"></span>Hackathon prototype</span>
+        <span class="tag">Sourced · Timestamped · Agent-ready</span>
+      </div>
+    </div>
+
+    <svg class="cover-art" viewBox="0 0 740 640" aria-hidden="true">
+      <defs>
+        <linearGradient id="pillar" gradientUnits="userSpaceOnUse" x1="0" y1="560" x2="0" y2="330">
+          <stop offset="0" stop-color="#668CFF" stop-opacity=".08"/>
+          <stop offset="1" stop-color="#58F0B5" stop-opacity=".85"/>
+        </linearGradient>
+        <linearGradient id="beam" gradientUnits="userSpaceOnUse" x1="0" y1="300" x2="0" y2="165">
+          <stop offset="0" stop-color="#58F0B5"/>
+          <stop offset="1" stop-color="#668CFF"/>
+        </linearGradient>
+        <linearGradient id="midfill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#0D1F1B"/>
+          <stop offset="1" stop-color="#0A1311"/>
+        </linearGradient>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="6" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+      </defs>
+
+      <!-- Bottom plane: sources -->
+      <path d="M250 375 L480 490 L250 605 L20 490 Z" fill="#0B1017" stroke="rgba(255,255,255,.16)" stroke-width="1.4"/>
+      <g stroke="rgba(255,255,255,.05)" stroke-width="1">
+        <path d="M307.5 403.75 L77.5 518.75"/><path d="M365 432.5 L135 547.5"/><path d="M422.5 461.25 L192.5 576.25"/>
+        <path d="M192.5 403.75 L422.5 518.75"/><path d="M135 432.5 L365 547.5"/><path d="M77.5 461.25 L307.5 576.25"/>
+      </g>
+      <!-- Pillars (drawn under the evidence layer) -->
+      <g stroke="url(#pillar)" stroke-width="1.6">
+        <path d="M146.5 518.75 V348"/><path d="M181 427 V365.5"/><path d="M250 553.25 V400"/><path d="M342 524.5 V354"/><path d="M393.75 510 V328"/>
+      </g>
+      <!-- Source nodes -->
+      <g>
+        <path d="M146.5 511.75 l9 7 -9 7 -9 -7Z" fill="#668CFF"/>
+        <path d="M181 420 l9 7 -9 7 -9 -7Z" fill="#9BA6B5"/>
+        <path d="M250 546.25 l9 7 -9 7 -9 -7Z" fill="#58F0B5"/>
+        <path d="M342 517.5 l9 7 -9 7 -9 -7Z" fill="#668CFF"/>
+        <path d="M393.75 503 l9 7 -9 7 -9 -7Z" fill="#9BA6B5"/>
+      </g>
+
+      <!-- Middle plane: evidence layer -->
+      <path d="M250 200 L450 300 L250 400 L50 300 Z" fill="rgba(88,240,181,.10)" filter="url(#soft)"/>
+      <path d="M250 200 L450 300 L250 400 L50 300 Z" fill="url(#midfill)" stroke="#58F0B5" stroke-width="1.6" filter="url(#glow)"/>
+      <g stroke="rgba(88,240,181,.12)" stroke-width="1">
+        <path d="M300 225 L100 325"/><path d="M350 250 L150 350"/><path d="M400 275 L200 375"/>
+        <path d="M200 225 L400 325"/><path d="M150 250 L350 350"/><path d="M100 275 L300 375"/>
+      </g>
+      <g stroke="rgba(88,240,181,.55)" stroke-width="1.4">
+        <path d="M146.5 328.75 L250 300"/><path d="M181 237 L250 300"/><path d="M250 363.25 L250 300"/><path d="M342 334.5 L250 300"/><path d="M393.75 320 L250 300"/>
+      </g>
+      <g fill="#58F0B5">
+        <circle cx="146.5" cy="328.75" r="4.5"/><circle cx="181" cy="237" r="4.5"/><circle cx="250" cy="363.25" r="4.5"/><circle cx="342" cy="334.5" r="4.5"/><circle cx="393.75" cy="320" r="4.5"/>
+      </g>
+      <circle cx="250" cy="300" r="24" fill="#58F0B5" opacity=".16"/>
+      <circle cx="250" cy="300" r="8" fill="#58F0B5" filter="url(#glow)"/>
+
+      <!-- Beam to agent -->
+      <path d="M250 300 V172" stroke="url(#beam)" stroke-width="6" opacity=".35" filter="url(#soft)"/>
+      <path d="M250 300 V172" stroke="url(#beam)" stroke-width="2"/>
+
+      <!-- Top plane: agent -->
+      <path d="M250 50 L370 110 L250 170 L130 110 Z" fill="#0D1426" stroke="#668CFF" stroke-width="1.6"/>
+      <path d="M250 80 L310 110 L250 140 L190 110 Z" fill="none" stroke="rgba(102,140,255,.35)" stroke-width="1"/>
+      <circle cx="250" cy="110" r="18" fill="#668CFF" opacity=".2"/>
+      <circle cx="250" cy="110" r="6.5" fill="#668CFF"/>
+
+      <!-- Labels -->
+      <g stroke="rgba(255,255,255,.18)" stroke-width="1" stroke-dasharray="3 5">
+        <path d="M382 110 H500"/><path d="M462 300 H500"/><path d="M492 490 H500"/>
+      </g>
+      <g font-size="20" letter-spacing="2">
+        <text x="515" y="106" fill="#A9BCFF">AI AGENT</text>
+        <text x="515" y="296" fill="#58F0B5">EVIDENCE LAYER</text>
+        <text x="515" y="486" fill="#9BA6B5">SOURCES</text>
+      </g>
+      <g font-size="21" fill="#9BA6B5" style="font-family: var(--sans)">
+        <text class="sub" x="515" y="134">Asks before acting</text>
+        <text class="sub" x="515" y="324">Sourced, timestamped</text>
+        <text class="sub" x="515" y="514">Chain, market, social</text>
+      </g>
+    </svg>
+  </div>
+  <aside class="notes">Open with the one-line problem: agents are starting to act on live information, and they need to know what is real first. We start with the hardest, fastest case — newly launched crypto tokens.</aside>
+</section>
+
+<!-- ============================================================
+     02 · PROBLEM
+     ============================================================ -->
+<section class="slide s-problem" data-section="TIC Hackathon">
+  <div class="content">
+    <div class="eyebrow"><span class="num">02</span>Problem</div>
+    <h2 class="h1">Online information moves faster than anyone can check it.</h2>
+    <p class="lead">People struggle to keep up. AI agents acting on their own may not check at all.</p>
+
+    <div class="grid-3">
+      <div class="card prob">
+        <div class="viz" aria-hidden="true">
+          <span class="chip" style="left:0; top:6px">Contract</span>
+          <span class="chip" style="left:168px; top:0; opacity:.75">DEX pool</span>
+          <span class="chip" style="left:336px; top:10px; opacity:.6">Website</span>
+          <span class="chip" style="left:56px; top:66px; opacity:.85">Social post</span>
+          <span class="chip" style="left:262px; top:62px">Explorer</span>
+          <span class="chip" style="left:10px; top:130px; opacity:.6">Group chat</span>
+          <span class="chip" style="left:212px; top:128px; opacity:.8">Price API</span>
+        </div>
+        <div class="row items-center" style="gap:16px"><div class="ico"><svg><use href="#i-nodes"/></svg></div><h3 class="t-title" style="margin:0">Fragmented</h3></div>
+        <p class="t-body" style="margin-top:16px">Evidence is scattered across chains, exchanges, social feeds and websites.</p>
+      </div>
+
+      <div class="card prob">
+        <div class="viz" aria-hidden="true">
+          <ul class="tl">
+            <li class="stale"><time>13:00:00</time><span>Agent’s last snapshot</span></li>
+            <li><time>14:02:11</time><span>Token created</span></li>
+            <li><time>14:02:48</time><span>Trading starts</span></li>
+            <li><time>14:09:30</time><span>Trending on social</span></li>
+          </ul>
+        </div>
+        <div class="row items-center" style="gap:16px"><div class="ico blue"><svg><use href="#i-clock"/></svg></div><h3 class="t-title" style="margin:0">Fast-moving</h3></div>
+        <p class="t-body" style="margin-top:16px">A token can be created, traded and promoted within minutes. Older data goes stale fast.</p>
+      </div>
+
+      <div class="card prob">
+        <div class="viz" aria-hidden="true">
+          <ul class="lookalikes">
+            <li>$ORBIT <span class="pill none">Listed earlier</span></li>
+            <li>$0RBIT <span class="pill med">Lookalike</span></li>
+            <li>$ORBlT <span class="pill med">Lookalike</span></li>
+            <li>$ORBIT2 <span class="pill med">Lookalike</span></li>
+          </ul>
+        </div>
+        <div class="row items-center" style="gap:16px"><div class="ico amber"><svg><use href="#i-eyeoff"/></svg></div><h3 class="t-title" style="margin:0">Sometimes misleading</h3></div>
+        <p class="t-body" style="margin-top:16px">Copycat names, paid promotion and coordinated posts can be designed to look legitimate.</p>
+      </div>
+    </div>
+    <p class="footnote">Token names and times are illustrative.</p>
+  </div>
+  <aside class="notes">Three properties make this hard: the evidence is scattered, it changes by the minute, and some of it is designed to mislead. Humans struggle; an autonomous agent may not check at all.</aside>
+</section>
+
+<!-- ============================================================
+     03 · WHY NOW
+     ============================================================ -->
+<section class="slide s-why" data-section="TIC Hackathon">
+  <div class="content">
+    <div class="eyebrow"><span class="num">03</span>Why now</div>
+    <h2 class="h1">AI agents are moving from answering to acting.</h2>
+
+    <div class="why-grid">
+      <div class="card chart-card">
+        <div class="chart-head">
+          <span class="t-label" style="color:var(--muted)">Cost of acting on bad information</span>
+          <span class="tag">Illustrative</span>
+        </div>
+        <div class="bars">
+          <div class="bar b1">Low</div>
+          <div class="bar b2">Higher</div>
+          <div class="bar b3">Highest</div>
+        </div>
+        <div class="bar-names">
+          <div><h3>Answer</h3><p>Reply from what the model already knows</p></div>
+          <div><h3>Research</h3><p>Search, browse, call live APIs</p></div>
+          <div><h3>Act</h3><p>Trade, sign, trigger workflows</p></div>
+        </div>
+      </div>
+
+      <div class="signals">
+        <span class="t-label">Signals we can point to</span>
+        <div class="signal">
+          <h3>A standard way to plug in tools</h3>
+          <p>MCP is an open protocol for connecting AI applications to external data and tools.</p>
+        </div>
+        <div class="signal">
+          <h3>Crypto data is already agent-facing</h3>
+          <p>CoinGecko, Nansen and GoPlus each publish MCP servers for AI agents.</p>
+        </div>
+        <div class="signal">
+          <h3>Agents can hold wallets and transact</h3>
+          <p>Toolkits such as Coinbase AgentKit let agents take onchain actions.</p>
+        </div>
+      </div>
+    </div>
+    <p class="footnote">Sources: modelcontextprotocol.io · docs.coingecko.com · docs.nansen.ai · github.com/GoPlusSecurity/goplus-mcp · github.com/coinbase/agentkit (checked Oct 2026).<br>No market-size or adoption statistics are shown; we will add figures only with credible sources.</p>
+  </div>
+  <aside class="notes">The shift is from agents that answer to agents that act. Each step raises the cost of bad input. The infrastructure for agents to call tools and hold wallets already exists — the missing piece is evidence they can trust and audit.</aside>
+</section>
+
+<!-- ============================================================
+     04 · SOLUTION
+     ============================================================ -->
+<section class="slide s-solution" data-section="TIC Hackathon">
+  <div class="fx-glow" style="--x:78%; --y:62%; opacity:.7"></div>
+  <div class="content">
+    <div class="eyebrow"><span class="num">04</span>Solution</div>
+    <h2 class="h1">A live intelligence layer agents can check before they act.</h2>
+
+    <div class="sol-grid">
+      <div class="sol-left">
+        <p class="lead">Token Intelligence Layer monitors newly launched tokens, keeps every piece of evidence with its source and timestamp, and returns structured risk flags.</p>
+        <ul class="props">
+          <li><div class="ico"><svg><use href="#i-link"/></svg></div><div><h3>Sourced</h3><p>Every claim links back to where it was observed.</p></div></li>
+          <li><div class="ico"><svg><use href="#i-clock"/></svg></div><div><h3>Timestamped</h3><p>Agents can see how fresh each signal is.</p></div></li>
+          <li><div class="ico blue"><svg><use href="#i-plug"/></svg></div><div><h3>Agent-ready</h3><p>Structured JSON via API and webhooks. MCP planned.</p></div></li>
+        </ul>
+      </div>
+
+      <div class="window code-card">
+        <div class="code-head">
+          <span class="method">GET</span><span class="path">/v1/tokens/{address}/evidence</span>
+          <span class="tag" style="font-size:18px">Illustrative schema</span>
+        </div>
+<div class="code"><span class="p">{</span>
+  <span class="k">"token"</span>: <span class="s">"$FERN"</span>,
+  <span class="k">"age_minutes"</span>: <span class="w">14</span>,
+  <span class="k">"last_updated"</span>: <span class="s">"14:16:09Z"</span>,
+  <span class="k">"flags"</span>: [{
+    <span class="k">"rule"</span>: <span class="s">"liquidity_not_locked"</span>,
+    <span class="k">"severity"</span>: <span class="s">"high"</span>,
+    <span class="k">"evidence"</span>: [<span class="s">"ev_01"</span>, <span class="s">"ev_02"</span>],
+    <span class="k">"observed_at"</span>: <span class="s">"14:02:48Z"</span>
+  }],
+  <span class="k">"unverified"</span>: [<span class="s">"social_mentions"</span>]
+<span class="p">}</span></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">The product is a service, not another dashboard: an agent calls one endpoint and gets back what is known, where it came from, how fresh it is, and what is still unverified.</aside>
+</section>
+
+<!-- ============================================================
+     05 · HOW IT WORKS
+     ============================================================ -->
+<section class="slide s-how" data-section="TIC Hackathon">
+  <div class="content">
+    <div class="eyebrow"><span class="num">05</span>How it works</div>
+    <h2 class="h1">From launch to alert in five steps.</h2>
+
+    <div class="pipeline">
+      <div class="step">
+        <div class="ico"><svg><use href="#i-search"/></svg></div>
+        <span class="num">01</span><h3>Discover</h3>
+        <p>Detect new tokens and liquidity pools as they appear.</p>
+        <code>pool_created</code>
+      </div>
+      <div class="step">
+        <div class="ico"><svg><use href="#i-layers"/></svg></div>
+        <span class="num">02</span><h3>Collect</h3>
+        <p>Pull market data and public social signals.</p>
+        <code>price · holders · posts</code>
+      </div>
+      <div class="step">
+        <div class="ico"><svg><use href="#i-db"/></svg></div>
+        <span class="num">03</span><h3>Preserve</h3>
+        <p>Store each item with its source, hash and timestamp.</p>
+        <code>sha256 · observed_at</code>
+      </div>
+      <div class="step">
+        <div class="ico"><svg><use href="#i-pulse"/></svg></div>
+        <span class="num">04</span><h3>Analyse</h3>
+        <p>Run transparent rules that flag risk patterns.</p>
+        <code>rule → flag</code>
+      </div>
+      <div class="step">
+        <div class="ico blue" style="background:#0D1426"><svg><use href="#i-bell"/></svg></div>
+        <span class="num">05</span><h3>Deliver</h3>
+        <p>Push alerts and serve evidence to agents via API.</p>
+        <code>webhook · REST</code>
+      </div>
+    </div>
+
+    <div class="card lineage">
+      <div class="lineage-head">
+        <span class="t-label" style="color:var(--muted)">Every output traces back to its inputs</span>
+        <span class="tag sim"><span class="d"></span>Simulated example</span>
+      </div>
+      <div class="lineage-row">
+        <div class="ln"><span class="k">Source</span><span class="v">DEX event · 14:02:48Z</span></div>
+        <svg class="i"><use href="#i-arrow"/></svg>
+        <div class="ln"><span class="k">Evidence</span><span class="v">ev_02 · LP not locked</span></div>
+        <svg class="i"><use href="#i-arrow"/></svg>
+        <div class="ln flag"><span class="k">Risk flag</span><span class="v">liquidity_not_locked</span></div>
+        <svg class="i"><use href="#i-arrow"/></svg>
+        <div class="ln alert"><span class="k">Alert</span><span class="v">$FERN · high · 14:05:31</span></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Five stages. The important one is Preserve: we keep the raw evidence with a hash and a timestamp, so every flag and alert can be traced back to exactly what was observed.</aside>
+</section>
+
+<!-- ============================================================
+     06 · PRODUCT CONCEPT
+     ============================================================ -->
+<section class="slide s-product" data-section="TIC Hackathon">
+  <div class="content">
+    <div class="row between items-center">
+      <div class="eyebrow"><span class="num">06</span>Product concept</div>
+      <span class="tag sim"><span class="d"></span>Concept mockup · simulated data</span>
+    </div>
+    <h2 class="h1 compact">What’s new, what’s verified, and what isn’t.</h2>
+
+    <div class="window app">
+      <div class="app-top">
+        <div class="app-brand"><svg viewBox="0 0 32 32"><use href="#logo"/></svg>Token Intelligence Layer <span class="crumb">/ Monitor</span></div>
+        <div class="app-status"><span class="dot-sim"></span>Simulated feed<span class="sep"></span><span class="mono">Last sync 14:16:09 UTC</span></div>
+      </div>
+      <div class="app-body">
+        <div class="app-main">
+          <div class="tabs"><span class="on">New tokens <b>5</b></span><span>Watchlist <b>3</b></span><span>Alerts <b>1</b></span><span>API</span></div>
+          <div class="tbl">
+            <div class="tr th"><span>Token</span><span>Age</span><span>First seen</span><span>Updated</span><span>Evidence</span><span>Risk flags</span></div>
+            <div class="tr sel"><span class="tok"><b>$FERN</b><i>0x8f3…a1c</i></span><span class="mono">14m</span><span>DEX pool</span><span class="mono">14:16:09</span><span>4 items</span><span><span class="pill high">Liquidity not locked</span></span></div>
+            <div class="tr"><span class="tok"><b>$KILN</b><i>0x2b7…90e</i></span><span class="mono">22m</span><span>Contract</span><span class="mono">14:15:51</span><span>5 items</span><span><span class="pill med">Holder concentration</span></span></div>
+            <div class="tr"><span class="tok"><b>$MOSSY</b><i>0xc41…7d2</i></span><span class="mono">31m</span><span>Social post</span><span class="mono">14:15:40</span><span>3 items</span><span><span class="pill info">Unverified claims</span></span></div>
+            <div class="tr"><span class="tok"><b>$QUILL</b><i>0x9e0…b43</i></span><span class="mono">47m</span><span>DEX pool</span><span class="mono">14:14:58</span><span>6 items</span><span><span class="pill none">No flags yet</span></span></div>
+            <div class="tr"><span class="tok"><b>$SLATE</b><i>0x51d…e08</i></span><span class="mono">58m</span><span>Contract</span><span class="mono">14:12:30</span><span>2 items</span><span><span class="pill med">Lookalike name</span></span></div>
+          </div>
+        </div>
+        <div class="app-detail">
+          <div class="d-head">
+            <div><span class="d-tok">$FERN</span><span class="d-addr">0x8f3…a1c · evidence trail</span></div>
+            <span class="pill high">High</span>
+          </div>
+          <div class="d-meta">
+            <div><span>Token age</span><b>14m</b></div>
+            <div><span>Updated</span><b>14:16:09</b></div>
+            <div><span>Sources</span><b>3</b></div>
+          </div>
+          <ul class="trail">
+            <li><time>14:02:11</time><div><b>Contract deployed</b><span>ev_01 · chain tx 0x8f…a1</span></div></li>
+            <li class="flag"><time>14:02:48</time><div><b>Pool created, LP not locked</b><span>ev_02 · DEX event</span></div></li>
+            <li><time>14:03:40</time><div><b>First social mention</b><span class="unv">ev_03 · public post · unverified</span></div></li>
+            <li><time>14:05:22</time><div><b>Top 10 wallets hold 64%</b><span>ev_04 · holder snapshot</span></div></li>
+          </ul>
+          <p class="d-note">Flags are risk indicators, not verdicts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">This is a concept mockup with simulated data. Each row shows age, where we first saw the token, when it was last updated, how much evidence we hold, and any risk flags. The right panel is the evidence trail.</aside>
+</section>
+
+<!-- ============================================================
+     07 · USERS
+     ============================================================ -->
+<section class="slide s-users" data-section="TIC Hackathon">
+  <div class="content">
+    <div class="eyebrow"><span class="num">07</span>Users</div>
+    <h2 class="h1">For teams whose software makes decisions about new tokens.</h2>
+
+    <div class="grid-3">
+      <div class="card user">
+        <div class="ico"><svg><use href="#i-code"/></svg></div>
+        <h3>AI-agent developers</h3>
+        <p class="who">Teams building agents that research, trade or recommend.</p>
+        <div class="need"><span class="t-label">Need</span><p>A check their agent can call before acting on a new token.</p></div>
+        <span class="tag blue via">Pre-action API call</span>
+      </div>
+      <div class="card user">
+        <div class="ico"><svg><use href="#i-chart"/></svg></div>
+        <h3>Crypto research platforms</h3>
+        <p class="who">Analysts and data products that cover new tokens.</p>
+        <div class="need"><span class="t-label">Need</span><p>Faster coverage of new tokens, with sources attached.</p></div>
+        <span class="tag blue via">Evidence feed + alerts</span>
+      </div>
+      <div class="card user">
+        <div class="ico"><svg><use href="#i-wallet"/></svg></div>
+        <h3>Web3 applications</h3>
+        <p class="who">Wallets, trading apps and DEX interfaces.</p>
+        <div class="need"><span class="t-label">Need</span><p>Risk context to show users before they interact with a token.</p></div>
+        <span class="tag blue via">Risk flags in the UI</span>
+      </div>
+    </div>
+    <p class="footnote">Target segments to validate. No customers, pilots or partnerships yet.</p>
+  </div>
+  <aside class="notes">Our first user is the agent developer, because the product is designed to be called by software. Research platforms and Web3 apps are the next segments to test.</aside>
+</section>
+
+<!-- ============================================================
+     08 · VALUE
+     ============================================================ -->
+<section class="slide s-value" data-section="TIC Hackathon">
+  <div class="content">
+    <div class="eyebrow"><span class="num">08</span>Value</div>
+    <h2 class="h1">Every decision leaves an evidence trail.</h2>
+
+    <div class="val-grid">
+      <div>
+        <div class="vals">
+          <div class="val"><div class="ico"><svg><use href="#i-eye"/></svg></div><div><h3>Better visibility</h3><p>Market, onchain and social signals in one record, each with its source.</p></div></div>
+          <div class="val"><div class="ico"><svg><use href="#i-zap"/></svg></div><div><h3>Earlier warnings</h3><p>Designed to flag risk patterns as they emerge, not after the fact.</p></div></div>
+          <div class="val"><div class="ico blue"><svg><use href="#i-history"/></svg></div><div><h3>Reviewable decisions</h3><p>See what an agent knew, and when, after it acted.</p></div></div>
+        </div>
+        <div class="disclaim"><svg class="i"><use href="#i-shield"/></svg>We flag risk. <span>We don’t guarantee safety.</span></div>
+      </div>
+
+      <div class="window record">
+        <div class="record-head">
+          <span class="t-label" style="color:var(--text)">Decision record</span>
+          <span class="tag sim"><span class="d"></span>Simulated</span>
+        </div>
+        <div class="record-body">
+          <dl class="kv-list">
+            <dt>Action</dt><dd>Trade declined by agent</dd>
+            <dt>Time</dt><dd class="mono">14:16:10 UTC</dd>
+            <dt>Reason</dt><dd class="flagged">liquidity_not_locked · high</dd>
+          </dl>
+          <div class="t-label ev-title">Evidence used</div>
+          <div class="ev"><span class="id">ev_01</span><span class="what">Contract deployed</span><span class="when">14:02:11Z</span></div>
+          <div class="ev"><span class="id">ev_02</span><span class="what">LP not locked</span><span class="when">14:02:48Z</span></div>
+          <div class="ev"><span class="id">ev_03</span><span class="what">Social mention</span><span class="when unv">unverified</span></div>
+        </div>
+        <div class="record-foot"><svg class="i"><use href="#i-history"/></svg>Stored with source, hash and timestamp, so it can be replayed.</div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">The value is visibility, earlier warning and accountability. When an agent declines or makes a trade, the record shows exactly what evidence it had. We flag risk; we never claim to guarantee safety.</aside>
+</section>
+
+<!-- ============================================================
+     09 · COMPETITION
+     ============================================================ -->
+<section class="slide s-comp" data-section="TIC Hackathon">
+  <div class="content">
+    <div class="eyebrow"><span class="num">09</span>Competition</div>
+    <h2 class="h1 compact">Crypto data is already agent-ready.<br>Reviewable evidence is the gap we’ll test.</h2>
+
+    <div class="comp-grid">
+      <div class="card ctable">
+        <div class="cr ch"><span>Existing category</span><span>Strong at</span><span>Agent access</span></div>
+        <div class="cr">
+          <div class="cat"><b>Market-data APIs</b><span>e.g. CoinGecko, CoinMarketCap</span></div>
+          <div class="str">Prices, volume and broad coverage, including new pools</div>
+          <div class="acc">API + MCP<br><em>CoinGecko</em></div>
+        </div>
+        <div class="cr">
+          <div class="cat"><b>New-pair trackers</b><span>e.g. DEX Screener, GeckoTerminal</span></div>
+          <div class="str">Fast discovery of new pairs, charts and token profiles</div>
+          <div class="acc">Public API<br><em>DEX Screener</em></div>
+        </div>
+        <div class="cr">
+          <div class="cat"><b>Token security scanners</b><span>e.g. GoPlus, RugCheck</span></div>
+          <div class="str">Contract-level risk checks before a transaction</div>
+          <div class="acc">API + MCP<br><em>GoPlus</em></div>
+        </div>
+        <div class="cr">
+          <div class="cat"><b>Onchain analytics</b><span>e.g. Nansen, Arkham</span></div>
+          <div class="str">Wallet labels, fund flows and smart-money analysis</div>
+          <div class="acc">API + MCP<br><em>Nansen</em></div>
+        </div>
+      </div>
+
+      <div class="card hi gap-card">
+        <span class="t-label" style="color:var(--mint)">The gap we intend to test</span>
+        <h3>One reviewable record per new token: every signal with its source, time observed and freshness.</h3>
+        <div class="blk"><span class="t-label">Hypothesis</span><p>Agent developers prefer this to stitching APIs together and keeping their own logs.</p></div>
+        <div class="blk"><span class="t-label">Honest risk</span><p>Incumbents have more coverage and could add this. Several may be our <strong>data sources</strong>.</p></div>
+      </div>
+    </div>
+    <p class="footnote">Based on public product documentation, checked Oct 2026. Not an exhaustive market map.</p>
+  </div>
+  <aside class="notes">Be direct: agents can already get crypto data, and some providers already serve agents via MCP. We are not claiming to have more data. We are testing whether a provenance-first evidence record is valuable enough to adopt. Many of these products are likely inputs for us.</aside>
+</section>
+
+<!-- ============================================================
+     10 · BUSINESS MODEL
+     ============================================================ -->
+<section class="slide s-biz" data-section="TIC Hackathon">
+  <div class="content">
+    <div class="eyebrow"><span class="num">10</span>Business model</div>
+    <h2 class="h1">Free to build with.<br>Paid when it runs in production.</h2>
+
+    <div class="tiers">
+      <div class="card tier">
+        <span class="t-label">01 · Developer</span>
+        <h3>Free</h3>
+        <p class="sub">For prototyping agents and testing the data.</p>
+        <ul>
+          <li><svg class="i"><use href="#i-check"/></svg>Rate-limited API</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Simulated sandbox feed</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Public documentation</li>
+        </ul>
+      </div>
+      <div class="card hi tier">
+        <span class="t-label" style="color:var(--mint)">02 · Usage</span>
+        <h3>Pay per call</h3>
+        <p class="sub">For agents running in production.</p>
+        <ul>
+          <li><svg class="i"><use href="#i-check"/></svg>Metered API and webhooks</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Higher rate limits</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Standard evidence retention</li>
+        </ul>
+      </div>
+      <div class="card tier">
+        <span class="t-label">03 · Premium monitoring</span>
+        <h3>Subscription</h3>
+        <p class="sub">For teams that need continuous coverage.</p>
+        <ul>
+          <li><svg class="i"><use href="#i-check"/></svg>Custom watchlists</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Priority alerts</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Longer evidence history</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Team audit logs</li>
+        </ul>
+      </div>
+    </div>
+    <div class="biz-foot">
+      <div class="flow-row">
+        <span class="t-label">Land with developers</span><svg class="i"><use href="#i-arrow"/></svg>
+        <span class="t-label">Grow with usage</span><svg class="i"><use href="#i-arrow"/></svg>
+        <span class="t-label">Expand to teams</span>
+      </div>
+      <p class="footnote">No revenue yet. Prices set after testing with developers.</p>
+    </div>
+  </div>
+  <aside class="notes">A developer-first model: free access to build, usage-based pricing once an agent is in production, and a subscription for teams that want continuous monitoring and audit logs. We have no revenue and will set prices after testing.</aside>
+</section>
+
+<!-- ============================================================
+     11 · MVP SCOPE
+     ============================================================ -->
+<section class="slide s-mvp" data-section="TIC Hackathon">
+  <div class="content">
+    <div class="eyebrow"><span class="num">11</span>MVP scope · 24-hour build</div>
+    <h2 class="h1 compact">What’s real, what’s simulated, what’s next.</h2>
+
+    <div class="plan">
+      <div class="plan-head">
+        <span class="t-label" style="color:var(--muted)">24-hour build plan</span>
+        <div class="row" style="gap:12px"><span class="tag mint">Real data</span><span class="tag sim">Simulated</span></div>
+      </div>
+      <div class="gantt">
+        <div class="g-real">Token discovery feed</div>
+        <div class="g-real">Evidence store + hashing</div>
+        <div class="g-real">Risk rules + REST API</div>
+        <div class="g-real">Dashboard + watchlist</div>
+        <div class="g-sim">Simulated alerts + demo</div>
+      </div>
+      <div class="ticks"><span>0h</span><span>4h</span><span>9h</span><span>15h</span><span><span>20h</span><span>24h</span></span></div>
+    </div>
+
+    <div class="scope">
+      <div class="card hi real">
+        <h3><span class="sw" style="background:var(--mint)"></span>Working · real data</h3>
+        <ul>
+          <li><svg class="i"><use href="#i-check"/></svg>Discovery from one public source</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Price, liquidity, holder snapshot</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Evidence store: source, time, hash</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Rule-based risk flags + REST API</li>
+          <li><svg class="i"><use href="#i-check"/></svg>Dashboard and watchlist</li>
+        </ul>
+      </div>
+      <div class="card sim">
+        <h3><span class="sw" style="background:var(--amber)"></span>Simulated · labelled</h3>
+        <ul>
+          <li><svg class="i"><use href="#i-flask"/></svg>Social signals (seeded sample posts)</li>
+          <li><svg class="i"><use href="#i-flask"/></svg>Alert delivery via a mock webhook</li>
+          <li><svg class="i"><use href="#i-flask"/></svg>Replayed events for a reliable demo</li>
+        </ul>
+      </div>
+      <div class="card out">
+        <h3><span class="sw" style="background:var(--deco)"></span>Not in the MVP</h3>
+        <ul>
+          <li><svg class="i"><use href="#i-minus"/></svg>Multi-chain coverage</li>
+          <li><svg class="i"><use href="#i-minus"/></svg>ML-based pattern detection</li>
+          <li><svg class="i"><use href="#i-minus"/></svg>MCP server (stretch goal)</li>
+          <li><svg class="i"><use href="#i-minus"/></svg>Accuracy evaluation (no claims yet)</li>
+          <li><svg class="i"><use href="#i-minus"/></svg>Auth, billing, SLAs</li>
+        </ul>
+      </div>
+    </div>
+    <p class="footnote">Planned scope for the 24-hour build. Confirm each status against the final build before presenting.</p>
+  </div>
+  <aside class="notes">Update this slide to match exactly what shipped. Anything in the amber column must be labelled as simulated on screen during the demo. Say clearly that we make no accuracy claims until we have evaluated the rules.</aside>
+</section>
+
+<!-- ============================================================
+     12 · DEMO
+     ============================================================ -->
+<section class="slide s-demo" data-section="TIC Hackathon">
+  <div class="content">
+    <div class="row between items-center">
+      <div class="eyebrow"><span class="num">12</span>Demo</div>
+      <span class="tag sim"><span class="d"></span>Storyboard · simulated data</span>
+    </div>
+    <h2 class="h1 compact">From new token to alert in four steps.</h2>
+
+    <div class="demo">
+      <div class="dstep">
+        <div class="dstep-head"><span class="t-label">01 · Discovery</span><span class="mono">14:02:48</span></div>
+        <div class="card mini">
+          <div class="top"><span class="t-label">New token</span><span class="tag sim" style="font-size:16px; padding:4px 10px">Sim</span></div>
+          <div class="mini-tok">$FERN</div>
+          <div class="mini-addr">0x8f3…a1c</div>
+          <dl class="kv">
+            <div><dt>First seen</dt><dd>14:02:48</dd></div>
+            <div><dt>Source</dt><dd>DEX pool event</dd></div>
+            <div><dt>Token age</dt><dd>37s</dd></div>
+          </dl>
+        </div>
+        <p class="cap"><strong>Discovery.</strong> A new pool appears. The token is recorded with its source and time.</p>
+      </div>
+
+      <div class="dstep">
+        <div class="dstep-head"><span class="t-label">02 · Evidence check</span><span class="mono">14:05:22</span></div>
+        <div class="card mini">
+          <div class="top"><span class="t-label">Evidence</span><span class="tag sim" style="font-size:16px; padding:4px 10px">Sim</span></div>
+          <ul class="checks">
+            <li class="ok"><svg class="i"><use href="#i-check"/></svg><b>Contract found onchain</b><span>ev_01 · 14:02:11</span></li>
+            <li class="warn"><svg class="i"><use href="#i-x"/></svg><b>LP tokens not locked</b><span>ev_02 · 14:02:48</span></li>
+            <li class="unk"><svg class="i"><use href="#i-help"/></svg><b>Social claim</b><span>ev_03 · unverified</span></li>
+          </ul>
+        </div>
+        <p class="cap"><strong>Evidence check.</strong> Each finding links to its source. Unverified items stay marked.</p>
+      </div>
+
+      <div class="dstep">
+        <div class="dstep-head"><span class="t-label">03 · Watchlist</span><span class="mono">14:05:30</span></div>
+        <div class="card mini">
+          <div class="top"><span class="t-label">Watchlist</span><span class="tag sim" style="font-size:16px; padding:4px 10px">Sim</span></div>
+          <div class="wl">
+            <div class="wl-row new"><div><b>$FERN<span class="badge">NEW</span></b><small>updated 14:05:30</small></div><span class="pill high">High</span></div>
+            <div class="wl-row"><div><b>$KILN</b><small>updated 14:04:51</small></div><span class="pill med">Med</span></div>
+            <div class="wl-row"><div><b>$QUILL</b><small>updated 14:03:58</small></div><span class="pill none">None</span></div>
+          </div>
+        </div>
+        <p class="cap"><strong>Watchlist update.</strong> $FERN is added with its flag and update time.</p>
+      </div>
+
+      <div class="dstep">
+        <div class="dstep-head"><span class="t-label">04 · Alert</span><span class="mono">14:05:31</span></div>
+        <div class="card mini">
+          <div class="top"><span class="t-label">Alert</span><span class="tag sim" style="font-size:16px; padding:4px 10px">Sim</span></div>
+          <div class="alert-card">
+            <span class="t-label" style="color:#FFAEA5">Simulated alert</span>
+            <b style="margin-top:8px">$FERN: liquidity not locked</b>
+            <p>High-severity risk flag · 2 evidence items</p>
+          </div>
+          <div class="meta2">
+            <span>via <b>mock webhook</b></span>
+            <span>agent: <b>hold for review</b></span>
+          </div>
+        </div>
+        <p class="cap"><strong>Alert.</strong> The agent gets the flag and its evidence — a signal to review, not a verdict.</p>
+      </div>
+    </div>
+
+    <div class="live"><svg class="i"><use href="#i-play"/></svg>Live walkthrough follows. Anything simulated is labelled on screen.</div>
+  </div>
+  <aside class="notes">Walk through the four steps on the real prototype. Point out which parts are live and which are simulated as you go — the alert in particular is delivered by a mock webhook.</aside>
+</section>
+
+<!-- ============================================================
+     13 · VISION
+     ============================================================ -->
+<section class="slide s-vision" data-section="TIC Hackathon">
+  <div class="fx-glow" style="--x:76%; --y:50%"></div>
+  <div class="content">
+    <div class="vis-left">
+      <div class="eyebrow"><span class="num">13</span>Vision</div>
+      <h2 class="h1" style="font-size:80px">Start with tokens. Become the evidence layer for AI agents.</h2>
+      <div class="ask">
+        <p>Before any agent acts, it should be able to ask:</p>
+        <ul>
+          <li><i>01</i>What’s the evidence?</li>
+          <li><i>02</i>Where did it come from?</li>
+          <li><i>03</i>How fresh is it?</li>
+        </ul>
+      </div>
+      <div class="thanks"><b>Thank you.</b><span>Questions welcome.</span></div>
+    </div>
+
+    <svg class="rings" viewBox="0 0 700 700" aria-hidden="true">
+      <defs>
+        <radialGradient id="core" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#58F0B5" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#58F0B5" stop-opacity=".04"/>
+        </radialGradient>
+      </defs>
+      <circle cx="350" cy="350" r="345" fill="rgba(255,255,255,.012)" stroke="rgba(255,255,255,.14)" stroke-width="1.4"/>
+      <circle cx="350" cy="350" r="225" fill="rgba(102,140,255,.04)" stroke="rgba(102,140,255,.55)" stroke-width="1.4" stroke-dasharray="4 7"/>
+      <circle cx="350" cy="350" r="110" fill="url(#core)" stroke="#58F0B5" stroke-width="1.8"/>
+      <!-- orbit points -->
+      <g fill="#668CFF"><circle cx="575" cy="350" r="5"/><circle cx="191" cy="509" r="4"/></g>
+      <g fill="#9BA6B5" opacity=".7"><circle cx="5" cy="350" r="4"/><circle cx="594" cy="594" r="4"/><circle cx="106" cy="594" r="3.5"/></g>
+
+      <text class="lbl" x="350" y="46" text-anchor="middle" fill="#7D8899">LATER</text>
+      <text x="350" y="82" text-anchor="middle" font-size="27" font-weight="600" fill="#F5F7FA">Other online information</text>
+      <text x="350" y="111" text-anchor="middle" font-size="21" fill="#9BA6B5">news · listings · public records</text>
+
+      <text class="lbl" x="350" y="164" text-anchor="middle" fill="#A9BCFF">NEXT</text>
+      <text x="350" y="198" text-anchor="middle" font-size="27" font-weight="600" fill="#F5F7FA">Wider crypto</text>
+      <text x="350" y="227" text-anchor="middle" font-size="21" fill="#9BA6B5">protocols · wallets · governance</text>
+
+      <text class="lbl" x="350" y="318" text-anchor="middle" fill="#58F0B5">NOW</text>
+      <text x="350" y="360" text-anchor="middle" font-size="32" font-weight="650" fill="#F5F7FA">New tokens</text>
+      <text x="350" y="392" text-anchor="middle" font-size="21" fill="#9BA6B5">launch to alert</text>
+    </svg>
+  </div>
+  <aside class="notes">Tokens are the wedge because they are fast, adversarial and high-stakes. The same evidence pattern — source, timestamp, freshness, flags — applies to any online information an agent must verify before acting.</aside>
+</section>
+
+</main>
+</div>
+
+<div class="notes-panel" id="notesPanel"></div>
+<div class="hint" id="hint">← → navigate · F fullscreen · N notes</div>
+
+<script src="deck.js"></script>
+</body>
+</html>
