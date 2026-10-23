@@ -1,6 +1,8 @@
 # Token Intelligence Layer — TIC Hackathon pitch deck
 
-13 slides, 16:9 (1920 × 1080). **[Open the PDF](dist/token-intelligence-layer-deck.pdf)** to view or download the full deck.
+13 slides, 16:9 (1920 × 1080).
+
+**⬇ [Download the PDF](dist/token-intelligence-layer-deck.pdf?raw=true)** · **⬇ [Download the HTML presenter](dist/token-intelligence-layer-deck.html?raw=true)** · [View the PDF in the browser](dist/token-intelligence-layer-deck.pdf)
 
 <details open>
 <summary><b>Slide preview</b></summary>
